@@ -1,0 +1,19 @@
+{
+  "users": [
+    {
+      "id": "56e38f4f-dcd7-4654-80bf-d15f741a4ce9",
+      "name": "José Muller Neto",
+      "email": "neto@gmail.com"
+    },
+    {
+      "id": "f7d8d07f-adf1-4d2c-8360-41655bb47918",
+      "name": "José Muller Neto",
+      "email": "neto@gmail.com"
+    },
+    {
+      "id": "edc4fd29-de53-4b5d-8541-442f266a5bfa",
+      "name": "Nelson Silva Neto",
+      "email": "neto@gmail.com"
+    }
+  ]
+}
