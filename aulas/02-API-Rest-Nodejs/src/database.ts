@@ -1,6 +1,6 @@
-import 'dotenv/config' // Load environment variables from .env file
-import { Knex, knex as setupKnex } from 'knex'
 import { env } from './env'
+import { Knex, knex as setupKnex } from 'knex'
+import 'dotenv/config' // Load environment variables from .env file
 
 export const config: Knex.Config = {
   client: 'sqlite', // Use SQLite as the database client

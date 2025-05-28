@@ -1,17 +1,14 @@
-import type { Knex } from "knex";
-
+import type { Knex } from 'knex'
 
 export async function up(knex: Knex): Promise<void> {
-  await knex.schema.createTable("transactions", (table) => {
-    table.uuid("id").primary();
-    table.string("title").notNullable();
-    table.decimal("amount", 10, 2).notNullable();
-    table.date("created_at").notNullable().defaultTo(knex.fn.now());
-  });
+  await knex.schema.createTable('transactions', (table) => {
+    table.uuid('id').primary()
+    table.string('title').notNullable()
+    table.decimal('amount', 10, 2).notNullable()
+    table.date('created_at').notNullable().defaultTo(knex.fn.now())
+  })
 }
-
 
 export async function down(knex: Knex): Promise<void> {
-  await knex.schema.dropTable("transactions");
+  await knex.schema.dropTable('transactions')
 }
-

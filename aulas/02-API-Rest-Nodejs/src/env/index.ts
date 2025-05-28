@@ -1,5 +1,13 @@
-import 'dotenv/config'
 import { z } from 'zod'
+import { config } from 'dotenv'
+
+console.log(process.env.NODE_ENV)
+
+if (process.env.NODE_ENV === 'test') {
+  config({ path: '.env.test' }) // Load environment variables from .env.test file for testing
+} else {
+  config() // Load environment variables from .env file for other environments
+}
 
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'production', 'test']).default('production'), // Environment type
@@ -12,3 +20,5 @@ if (_env.success === false) {
   throw new Error('Invalid environment variables') // Throw error to stop execution
 }
 export const env = _env.data // Export validated environment variables
+
+console.log('Usando banco de dados:', env.DATABASE_URL)
