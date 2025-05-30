@@ -11,8 +11,9 @@ if (process.env.NODE_ENV === 'test') {
 
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'production', 'test']).default('production'), // Environment type
+  DATABASE_CLIENT: z.enum(['sqlite', 'pg']), // Database client type
   DATABASE_URL: z.string(),
-  PORT: z.number().default(3333),
+  PORT: z.coerce.number().default(3333), // Server port, default is 3333
 })
 const _env = envSchema.safeParse(process.env) // Validate and parse environment variables using Zod
 if (_env.success === false) {
