@@ -1,11 +1,11 @@
 import fastify from 'fastify'
-import { register } from './http/controllers/register'
 import { ZodError } from 'zod'
 import { env } from './env'
+import { appRoutes } from './http/routes'
 
 export const app = fastify()
 
-app.post('/users', register)
+app.register(appRoutes)
 
 // Error hendling
 app.setErrorHandler((error, _, reply) => {

@@ -19,7 +19,6 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
 
   try {
     // Aqui é onde o use case é instanciado com o repositório que ele vai utilizar.
-    // O use case não tem mais conexão direta com o Prisma, caso queira trocar o repositório, basta passar outro.
     const usersRepository = new PrismaUsersRepository()
 
     // Aqui esta sendo instanciado o use case com o repositório. Passando como parâmetro o repositório que ele vai utilizar.
