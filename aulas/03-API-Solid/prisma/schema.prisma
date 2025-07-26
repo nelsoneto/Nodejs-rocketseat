@@ -13,7 +13,7 @@ model User {
   name          String
   email         String   @unique
   password_hash String
-  createdAt     DateTime @default(now())
+  created_at     DateTime @default(now())
 
   checkIns CheckIn[] // [] => vários check-ins do usuário
 
@@ -22,8 +22,8 @@ model User {
 
 model CheckIn {
   id        String    @id @default(uuid())
-  createdAt DateTime  @default(now())
-  validated DateTime?
+  created_at DateTime  @default(now())
+  validated_at DateTime?
 
   user    User   @relation(fields: [user_id], references: [id])
   user_id String
