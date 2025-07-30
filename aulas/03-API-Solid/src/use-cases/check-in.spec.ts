@@ -3,6 +3,8 @@ import { InMemoryCheckInRepository } from '@/repositories/in-memory/in-memory-ch
 import { CheckInUseCase } from './check-in'
 import { InMemoryGymRepository } from '@/repositories/in-memory/in-memory-gyms-repository'
 import { Decimal } from '@prisma/client/runtime/library'
+import { MaxNumberOfCheckInsError } from './errors/max-namber-of-check-ins-error'
+import { MaxDistanceError } from './errors/max-distance-error'
 
 let checkInRepository: InMemoryCheckInRepository
 let gymRepository: InMemoryGymRepository // Assuming you have a similar in-memory repository for gyms
@@ -10,18 +12,18 @@ let sut: CheckInUseCase
 
 // Testes unitários para o caso de uso de Check-in
 describe('Check-in Use Case', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     checkInRepository = new InMemoryCheckInRepository()
     gymRepository = new InMemoryGymRepository()
     sut = new CheckInUseCase(checkInRepository, gymRepository)
 
-    gymRepository.items.push({
+    await gymRepository.create({
       id: 'gym-01',
       title: 'Gym 01',
       phone: '123456789',
       description: 'Description of Gym 01',
-      latitude: new Decimal(-23.5505), // Exemplo de latitude
-      longitude: new Decimal(-46.6333), // Exemplo de longitude
+      latitude: -23.5505, // Exemplo de latitude
+      longitude: -46.6333, // Exemplo de longitude
     })
 
     vi.useFakeTimers()
@@ -61,7 +63,7 @@ describe('Check-in Use Case', () => {
         userLatitude: -23.5505, // Exemplo de latitude
         userLongitude: -46.6333, // Exemplo de longitude
       }),
-    ).rejects.toThrow('User has already checked in today')
+    ).rejects.toBeInstanceOf(MaxNumberOfCheckInsError)
   })
 
   // Deve conseguir realizar check-in em dias diferentes
@@ -103,6 +105,6 @@ describe('Check-in Use Case', () => {
         userLatitude: -23.56, // Latitude diferente, distante da academia
         userLongitude: -46.64, // Longitude diferente, distante da academia
       }),
-    ).rejects.toBeInstanceOf(Error)
+    ).rejects.toBeInstanceOf(MaxDistanceError)
   })
 })
