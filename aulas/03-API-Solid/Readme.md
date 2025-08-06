@@ -52,3 +52,8 @@ API - SOLID
   Em JavaScript (e TypeScript), this é uma palavra-chave que se refere ao contexto de execução atual. O valor de this depende de como a função é chamada. No contexto da sua classe InMemoryCheckInRepository, this se refere à instância da classe que está sendo utilizada.
 
  Dentro de um objeto (instância de uma classe), o this é usado para manipular os dados (como um array de dados) que pertencem a essa instância específica. Ele permite acessar e modificar as propriedades e métodos desse objeto.
+
+# Padrão de requisição http:
+  Quando é uma requisição GET por exemplo, criar um caso de uso com descrição get-exemplo.ts e se for com vários o ideal seria fetch-exemplo.ts.
+
+  
