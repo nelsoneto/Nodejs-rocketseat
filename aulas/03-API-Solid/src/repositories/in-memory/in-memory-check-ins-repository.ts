@@ -25,9 +25,9 @@ export class InMemoryCheckInRepository implements CheckInsRepository {
 
     const checkInOnSameDay = this.items.find(
       (item) =>
-        item.user_id === userId &&
-        item.created_at >= startOfDay &&
-        item.created_at <= endOfDay,
+        item.userId === userId &&
+        item.createdAt >= startOfDay &&
+        item.createdAt <= endOfDay,
     )
 
     if (!checkInOnSameDay) {
@@ -38,21 +38,21 @@ export class InMemoryCheckInRepository implements CheckInsRepository {
 
   async findManyByUserId(userId: string, page: number) {
     return this.items
-      .filter((item) => item.user_id === userId)
+      .filter((item) => item.userId === userId)
       .slice((page - 1) * 20, page * 20)
   }
 
   async countByUserId(userId: string) {
-    return this.items.filter((item) => item.user_id === userId).length
+    return this.items.filter((item) => item.userId === userId).length
   }
 
   async create(data: Prisma.CheckInUncheckedCreateInput) {
     const checkIn = {
       id: randomUUID(),
-      gym_id: data.gym_id,
-      user_id: data.user_id,
-      validated_at: data.validated_at ? new Date(data.validated_at) : null,
-      created_at: new Date(),
+      gymId: data.gymId,
+      userId: data.userId,
+      validatedAt: data.validatedAt ? new Date(data.validatedAt) : null,
+      createdAt: new Date(),
     }
 
     this.items.push(checkIn)

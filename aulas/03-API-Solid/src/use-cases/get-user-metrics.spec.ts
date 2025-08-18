@@ -14,13 +14,13 @@ describe('Get User Metrics Use Case', () => {
   // Deve conseguir obter a contagem de check-ins do usuário
   it('should be able to get check-ins count from user metrics', async () => {
     await checkInRepository.create({
-      gym_id: 'gym-01',
-      user_id: 'user-01',
+      gymId: 'gym-01',
+      userId: 'user-01',
     })
 
     await checkInRepository.create({
-      gym_id: 'gym-02',
-      user_id: 'user-01',
+      gymId: 'gym-02',
+      userId: 'user-01',
     })
 
     const { CheckInsCount } = await sut.execute({

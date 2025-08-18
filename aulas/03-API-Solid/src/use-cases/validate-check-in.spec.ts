@@ -21,16 +21,16 @@ describe('Validate Check-In Use Case', () => {
   // Deve conseguir validar o check-in
   it('should be able to validate the check-in', async () => {
     const createdCheckIn = await checkInsRepository.create({
-      gym_id: 'gym-01',
-      user_id: 'user-01',
+      gymId: 'gym-01',
+      userId: 'user-01',
     })
 
     const { checkIn } = await sut.execute({
       checkInId: createdCheckIn.id,
     })
 
-    expect(checkIn.validated_at).toEqual(expect.any(Date))
-    expect(checkInsRepository.items[0].validated_at).toEqual(expect.any(Date))
+    expect(checkIn.validatedAt).toEqual(expect.any(Date))
+    expect(checkInsRepository.items[0].validatedAt).toEqual(expect.any(Date))
   })
 
   // Não deve ser possível validar um check-in inexistente
@@ -47,8 +47,8 @@ describe('Validate Check-In Use Case', () => {
     vi.setSystemTime(new Date(2023, 0, 1, 12, 0, 0)) // define o tempo do sistema para 1 de janeiro de 2023, 12:00:00 
 
     const createdCheckIn = await checkInsRepository.create({
-      gym_id: 'gym-01',
-      user_id: 'user-01',
+      gymId: 'gym-01',
+      userId: 'user-01',
     })  
 
     const twentyOneMinutesInMs = 1000 * 60 * 21 // 21 minutos em milissegundos

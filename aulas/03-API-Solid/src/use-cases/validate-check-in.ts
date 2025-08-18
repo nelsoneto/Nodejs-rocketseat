@@ -27,7 +27,7 @@ checkInId,
     }
 
     const distanceInMinutesFromCheckInCreation = dayjs().diff(
-      checkIn.created_at,
+      checkIn.createdAt,
       'minute',
     )
 
@@ -36,7 +36,7 @@ checkInId,
     }
 
     // se encontrar o check-in, atualiza o campo validated_at com a data atual
-    checkIn.validated_at = new Date()
+    checkIn.validatedAt = new Date()
 
     await this.checkInsRepository.save(checkIn)
 

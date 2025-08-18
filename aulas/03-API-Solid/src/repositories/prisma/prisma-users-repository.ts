@@ -9,8 +9,16 @@ export class PrismaUsersRepository implements UsersRepository {
         id: userId,
       },
     })
-
-    return user
+    if (!user) {
+    return null;
+  }
+    return {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    createdAt: user.createdAt,
+    passwordHash: user.password_hash, // 👈 converte manualmente
+  };
   }
 
   async findByEmail(email: string) {
@@ -19,14 +27,37 @@ export class PrismaUsersRepository implements UsersRepository {
         email,
       },
     })
+     if (!user) {
+       return null;
+   }
 
-    return user
+  return {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    createdAt: user.createdAt,
+    passwordHash: user.password_hash, // 👈 converte manualmente
+  };
+
+    
   }
 
-  async create(data: Prisma.UserCreateInput) {
-    const user = await prisma.user.create({
-      data,
-    })
-    return user
-  }
+async create(data: Prisma.UserCreateInput) {
+  const user = await prisma.user.create({
+    data: {
+      name: data.name,
+      email: data.email,
+      password_hash: data.passwordHash, // 👈 Certifique-se de que isso está sendo fornecido
+    },
+  });
+
+  return {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    createdAt: user.createdAt, // Usar created_at se for o nome no BD
+    passwordHash: user.password_hash,
+  };
+}
+
 }
