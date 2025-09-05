@@ -1,4 +1,3 @@
-import { UserAlreadyExistsError } from '@/use-cases/errors/user-already-exists-error'
 import { makeCreateGymUseCase } from '@/use-cases/factories/make-create-gym-use-case'
 
 import { FastifyReply, FastifyRequest } from 'fastify'
@@ -22,25 +21,15 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
 
   const { title, description, phone, latitude, longitude  } = createGymBodySchema.parse(request.body)
 
-  try {
-    const createGymUseCase = makeCreateGymUseCase()
+  const createGymUseCase = makeCreateGymUseCase()
 
-    await createGymUseCase.execute({
-      title,
-      description,
-      phone,
-      latitude,
-      longitude,
-    })
-  } catch (error) {
-    if (error instanceof UserAlreadyExistsError) {
-      // Se o erro for do tipo UserAlreadyExistsError, retorna um erro 409 (Conflict)
-      return reply.status(409).send({ message: error.message })
-    }
-
-    throw error
-    // reply.status(500).send() // TODO fix me
-  }
+  await createGymUseCase.execute({
+    title,
+    description,
+    phone,
+    latitude,
+    longitude,
+  })
 
   return reply.status(201).send()
 }
