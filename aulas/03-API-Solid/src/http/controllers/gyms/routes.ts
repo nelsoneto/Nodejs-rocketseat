@@ -6,7 +6,7 @@ import { nearby } from './nearby'
 import { create } from './create'
 
 export async function gymsRoutes(app: FastifyInstance) {
-  app.get('/health', healthCheck)
+  // app.get('/health', healthCheck)
   app.addHook('onRequest', verifyJWT)
 
   app.get('/gyms/search', search)
