@@ -28,5 +28,6 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
     userLongitude: longitude,
   })
 
+  console.log({ gymId, latitude, longitude })
   return reply.status(201).send()
 }

@@ -26,10 +26,10 @@ model CheckIn {
   validatedAt DateTime?
 
   user   User   @relation(fields: [userId], references: [id])
-  userId String
+  userId String @map("user_id")
 
   gym   Gym    @relation(fields: [gymId], references: [id])
-  gymId String
+  gymId String @map("gym_id")
 
   @@map("check_ins")
 }
