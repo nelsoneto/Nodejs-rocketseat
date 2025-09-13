@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-  // output   = "../generated/prisma"
+  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -23,7 +23,7 @@ model User {
 model CheckIn {
   id          String    @id @default(uuid())
   createdAt   DateTime  @default(now())
-  validatedAt DateTime?
+  validatedAt DateTime? @map("validated_at")
 
   user   User   @relation(fields: [userId], references: [id])
   userId String @map("user_id")

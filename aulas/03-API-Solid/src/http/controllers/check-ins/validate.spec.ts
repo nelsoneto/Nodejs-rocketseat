@@ -4,7 +4,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { createAndAuthenticateUser } from '@/utils/test/create-and-authenticate-user'
 import { prisma } from '@/lib/prisma'
 
-describe('Check-in History (e2e)', () => {
+describe('Validate Check-in (e2e)', () => {
   beforeAll(async () => {
     await app.ready()
   })
@@ -13,7 +13,8 @@ describe('Check-in History (e2e)', () => {
     await app.close()
   })
 
-  it('should be able to list the history of check-ins', async () => {
+  // Deve ser capaz de validar um check-in
+  it('should be able to validate a check-in', async () => {
     const { token } = await createAndAuthenticateUser(app)
 
     const user = await prisma.user.findFirstOrThrow()
@@ -26,34 +27,26 @@ describe('Check-in History (e2e)', () => {
       },
     })
 
-    await prisma.checkIn.createMany({
-      data: [
-        {
-          gymId: gym.id,
-          userId: user.id,
-        },
-        {
-          gymId: gym.id,
-          userId: user.id,
-        },
-      ],
+    const checkIn = await prisma.checkIn.create({
+      data: {
+        gymId: gym.id,
+        userId: user.id,
+      },
     })
 
     const response = await request(app.server)
-      .get('/check-ins/history')
+      .patch(`/check-ins/${checkIn.id}/validate`)
       .set('Authorization', `Bearer ${token}`)
       .send()
 
-    expect(response.statusCode).toEqual(200)
-    expect(response.body.checkIns).toEqual([
-      expect.objectContaining({
-        gymId: gym.id,
-        userId: user.id,
-      }),
-      expect.objectContaining({
-        gymId: gym.id,
-        userId: user.id,
-      }),
-    ])
+    expect(response.statusCode).toEqual(204)
+
+    const validatedCheckIn = await prisma.checkIn.findUniqueOrThrow({
+      where: {
+        id: checkIn.id,
+      },
+    })
+
+    expect(validatedCheckIn.validatedAt).toEqual(expect.any(Date))
   })
 })

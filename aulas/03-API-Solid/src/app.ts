@@ -4,6 +4,7 @@ import { ZodError } from 'zod'
 import { env } from './env'
 import { usersRoutes } from './http/controllers/users/routes'
 import { gymsRoutes } from './http/controllers/gyms/routes'
+import { checkInsRoutes } from './http/controllers/check-ins/routes'
 
 export const app = fastify()
 
@@ -13,6 +14,7 @@ app.register(fastifyJwt, {
 
 app.register(usersRoutes)
 app.register(gymsRoutes)
+app.register(checkInsRoutes)
 
 // Error hendling
 app.setErrorHandler((error, _, reply) => {
@@ -25,8 +27,7 @@ app.setErrorHandler((error, _, reply) => {
   if (env.NODE_ENV !== 'production') {
     console.error(error)
   } else {
-    // In production, you might want to log the error to an external service
-    // logErrorToService(error)
+    // no today
   }
 
   return reply.status(500).send({

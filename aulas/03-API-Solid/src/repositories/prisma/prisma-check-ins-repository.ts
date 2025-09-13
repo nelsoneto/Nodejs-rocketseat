@@ -10,17 +10,7 @@ export class PrismaCheckInsRepository implements CheckInsRepository {
       },
     });
 
-    if (!checkIn) {
-      return null;
-    }
-
-    return {
-      id: checkIn.id,
-      userId: checkIn.user_id,
-      gymId: checkIn.gym_id,
-      createdAt: checkIn.createdAt,
-      validatedAt: checkIn.validated,
-    };
+    return checkIn;
   }
   async findByUserIdOnDate(userId: string, date: Date){
     const startOfDay = new Date(date);
@@ -30,7 +20,7 @@ export class PrismaCheckInsRepository implements CheckInsRepository {
 
     const checkInOnSameDay = await prisma.checkIn.findFirst({
       where: {
-        user_id: userId,
+        userId,
         createdAt: {
           gte: startOfDay,
           lte: endOfDay,
@@ -38,38 +28,25 @@ export class PrismaCheckInsRepository implements CheckInsRepository {
       },
     });
 
-    return checkInOnSameDay ? {
-      id: checkInOnSameDay.id,
-      userId: checkInOnSameDay.user_id,
-      gymId: checkInOnSameDay.gym_id,
-      createdAt: checkInOnSameDay.createdAt,
-      validatedAt: checkInOnSameDay.validated,
-  
-    } : null;
+    return checkInOnSameDay;
   
   }
   async findManyByUserId(userId: string, page: number){
     const checkIns = await prisma.checkIn.findMany({
       where: {
-        user_id: userId,
+        userId,
       },
       skip: (page - 1) * 20,
       take: 20,
     });
 
-    return checkIns.map((checkIn) => ({
-      id: checkIn.id,
-      userId: checkIn.user_id,
-      gymId: checkIn.gym_id,
-      createdAt: checkIn.createdAt,
-      validatedAt: checkIn.validated,
-    }));
+    return checkIns;
   }
 
   async countByUserId(userId: string){
     const count = await prisma.checkIn.count({
       where: {
-        user_id: userId,
+        userId,
       },
     });
 
@@ -78,20 +55,10 @@ export class PrismaCheckInsRepository implements CheckInsRepository {
 
   async create(data: Prisma.CheckInUncheckedCreateInput){
     const checkIn = await prisma.checkIn.create({
-      data: {
-        gym_id: data.gymId,
-        user_id: data.userId,
-        validated: data.validatedAt ? data.validatedAt : null,
-      },
+      data,
     });
 
-    return {
-      id: checkIn.id,
-      userId: checkIn.user_id,
-      gymId: checkIn.gym_id,
-      createdAt: checkIn.createdAt,
-      validatedAt: checkIn.validated,
-    };
+    return checkIn;
   }
 
   async save(data: CheckIn){
@@ -102,13 +69,6 @@ export class PrismaCheckInsRepository implements CheckInsRepository {
       data,
     });
 
-    return {
-      id: checkIn.id,
-      userId: checkIn.user_id,
-      gymId: checkIn.gym_id,
-      createdAt: checkIn.createdAt,
-      validatedAt: checkIn.validated,
-    };
+    return checkIn;
   }  
-
 }

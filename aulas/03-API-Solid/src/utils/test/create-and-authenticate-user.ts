@@ -8,7 +8,7 @@ export async function createAndAuthenticateUser(app: FastifyInstance) {
     data: {
       name: 'John Doe',
       email: 'john.doe@example.com',
-      password_hash: await hash('123456', 6),
+      passwordHash: await hash('123456', 6),
     },
   })
 

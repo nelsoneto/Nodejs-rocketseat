@@ -3,8 +3,8 @@ import { FindManyNearbyParams, GymRepository } from "../gyms-repository";
 import { prisma } from "@/lib/prisma";
 
 export class PrismaGymsRepository implements GymRepository {
-  findById(id: string){
-    const gym = prisma.gym.findUnique({
+  async findById(id: string){
+    const gym = await prisma.gym.findUnique({
       where: {
         id,
       },
@@ -12,16 +12,16 @@ export class PrismaGymsRepository implements GymRepository {
     return gym; 
   }
 
-  findManyNearby({ latitude, longitude }: FindManyNearbyParams){
-    const gyms = prisma.$queryRaw<Gym[]>`
+  async findManyNearby({ latitude, longitude }: FindManyNearbyParams){
+    const gyms = await prisma.$queryRaw<Gym[]>`
       SELECT * FROM gyms
       WHERE ( 6371 * acos( cos( radians(${latitude}) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(${longitude}) ) + sin( radians(${latitude}) ) * sin( radians( latitude ) ) ) ) < 10
     `;
     return gyms;
   }
 
-  searchMany(query: string, page: number){
-    const gyms = prisma.gym.findMany({
+  async searchMany(query: string, page: number){
+    const gyms = await prisma.gym.findMany({
       where: {
         title: {
           contains: query,
@@ -34,8 +34,8 @@ export class PrismaGymsRepository implements GymRepository {
     return gyms;
   }
 
-  create(data: Prisma.GymCreateInput){
-    const gym = prisma.gym.create({
+  async create(data: Prisma.GymCreateInput){
+    const gym = await prisma.gym.create({
       data,
     });
     return gym;
