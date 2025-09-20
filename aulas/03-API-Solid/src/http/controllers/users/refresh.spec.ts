@@ -10,7 +10,7 @@ describe('Refresh Token (e2e)', () => {
   afterAll(async () => {
     await app.close()
   })
-
+    // deve ser possível renovar um token
   it('should be able to refresh a token', async () => {
 
     await request(app.server).post('/users').send({
