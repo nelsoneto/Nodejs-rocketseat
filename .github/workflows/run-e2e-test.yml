@@ -32,3 +32,6 @@ jobs:
           cache-dependency-path: aulas/03-API-Solid/package-lock.json # Aponta para o lock file correto
       - run: npm ci
       - run: npm run test:e2e
+        env:
+          JWT_SECRET: my_secret
+          DATABASE_URL: "postgresql://docker:docker@localhost:5432/apisolid?schema=public"
