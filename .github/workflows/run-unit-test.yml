@@ -1,0 +1,24 @@
+name: Run Unit Tests
+
+on:
+  push:
+    paths:
+      - 'aulas/03-API-Solid/**' # Só executa se houver mudanças neste projeto
+
+jobs:
+  run-unit-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./aulas/03-API-Solid # Define o diretório de trabalho
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: 'npm'
+          cache-dependency-path: aulas/03-API-Solid/package-lock.json # Aponta para o lock file correto
+      - run: npm ci
+      - run: npm test
