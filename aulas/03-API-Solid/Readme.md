@@ -9,6 +9,7 @@ API - SOLID
     ex: 
       app.post('/authenticate', authenticate) => sem sentido
       app.post('/sessions', authenticate) => mais semântico
+    
   
 # sut
   "SUT" significa System Under Test (Sistema Sob Teste). Em testes unitários, o SUT é o componente, função, classe ou módulo que você está testando diretamente.
