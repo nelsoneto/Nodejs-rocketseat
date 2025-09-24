@@ -3,35 +3,38 @@ name: Run E2E Tests
 on:
   push:
     paths:
-      - 'aulas/03-API-Solid/**' # Só executa se houver mudanças neste projeto
+      - 'aulas/03-API-Solid/**'
 
 jobs:
   run-e2e-tests:
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: bitnami/postgresql
+        ports:
+          - 5432:5432
+        env:
+          POSTGRESQL_USERNAME: docker
+          POSTGRESQL_PASSWORD: docker
+          POSTGRESQL_DATABASE: apisolid
+
     defaults:
       run:
-        working-directory: ./aulas/03-API-Solid # Define o diretório de trabalho
-
-  services:
-    postgres:
-      image: bitnami/postgresql
-      ports:
-        - 5432:5432
-      env:
-        POSTGRESQL_USERNAME: docker
-        POSTGRESQL_PASSWORD: docker
-        POSTGRESQL_DATABASE: apisolid
-
+        working-directory: ./aulas/03-API-Solid
 
     steps:
       - uses: actions/checkout@v3
+
       - name: Use Node.js 18.x
         uses: actions/setup-node@v3
         with:
           node-version: 18.x
           cache: 'npm'
-          cache-dependency-path: aulas/03-API-Solid/package-lock.json # Aponta para o lock file correto
+          cache-dependency-path: aulas/03-API-Solid/package-lock.json
+
       - run: npm ci
+
       - run: npm run test:e2e
         env:
           JWT_SECRET: my_secret
