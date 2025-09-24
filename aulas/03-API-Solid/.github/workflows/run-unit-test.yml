@@ -1,0 +1,38 @@
+name: Run Unit Tests
+
+# Gatilho simplificado: executa em qualquer push para a branch 'main'
+on:
+  push:
+    branches:
+      - main # ou 'master', dependendo do nome da sua branch principal
+
+jobs:
+  run-unit-tests:
+    runs-on: ubuntu-latest
+    
+    # Define o diretório de trabalho para todos os comandos 'run'
+    defaults:
+      run:
+        working-directory: ./aulas/03-API-Solid
+
+    steps:
+      # Passo 1: Faz o checkout do código do repositório
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Passo 2: Configura o ambiente Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+          # Aponta para o package-lock.json correto para o cache
+          cache-dependency-path: aulas/03-API-Solid/package-lock.json
+
+      # Passo 3: Instala as dependências
+      - name: Install dependencies
+        run: npm ci
+
+      # Passo 4: Executa os testes
+      - name: Run tests
+        run: npm test
