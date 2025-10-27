@@ -1,5 +1,5 @@
-import { Entity } from "@/core/entities/entity"
-import { UniqueEntityID } from "@/core/entities/unique-entity-id"
+import { Entity } from '@/core/entities/entity'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 
 interface AnswerProps {
   content: string
@@ -9,7 +9,7 @@ interface AnswerProps {
   updatedAt?: Date
 }
 
-export class Answer extends Entity <AnswerProps>  {
+export class Answer extends Entity<AnswerProps> {
   get content() {
     return this.props.content
   }
@@ -28,7 +28,7 @@ export class Answer extends Entity <AnswerProps>  {
 
   get updatedAt() {
     return this.props.updatedAt
-  } 
+  }
 
   get excerpt() {
     return this.content.substring(0, 120).trimEnd().concat('...')
@@ -38,7 +38,7 @@ export class Answer extends Entity <AnswerProps>  {
     this.props.updatedAt = new Date()
   }
 
-  set content (content: string) {
+  set content(content: string) {
     this.props.content = content
     this.touch()
   }
