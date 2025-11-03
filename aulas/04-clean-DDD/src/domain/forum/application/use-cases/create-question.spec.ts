@@ -1,19 +1,26 @@
-import { expect, test, vi } from 'vitest'
+import { expect } from 'vitest'
 import { CreateQuestionUseCase } from './create-question'
-import { QuestionsRepository } from '../repositories/questions-repository'
+import { InMemoryQuestionsRepository } from '@/test/repositories/in-memory-question-repository'
 
-test('create a question', async () => {
-  const fakeQuestionsRepository: QuestionsRepository = {
-    create: vi.fn(),
-  }
-  const createQuestion = new CreateQuestionUseCase(fakeQuestionsRepository)
+let inMemoryQuestionsRepository: InMemoryQuestionsRepository
+let sut: CreateQuestionUseCase
 
-  const { question } = await createQuestion.execute({
-    authorId: '1',
-    title: 'Nova pergunta',
-    content: 'Conteúdo da pergunta',
+describe('Create Question', () => {
+  beforeEach(() => {
+    inMemoryQuestionsRepository = new InMemoryQuestionsRepository()
+    sut = new CreateQuestionUseCase(inMemoryQuestionsRepository) // injeção de dependência
   })
 
-  expect(question.id).toEqual(expect.any(Object))
-  expect(fakeQuestionsRepository.create).toHaveBeenCalledWith(question)
+  // system under test (sut)
+
+  it('create a question', async () => {
+    const { question } = await sut.execute({
+      authorId: '1',
+      title: 'Nova pergunta',
+      content: 'Conteúdo da pergunta',
+    })
+
+    expect(question.id).toBeTruthy()
+    expect(inMemoryQuestionsRepository.items[0]!.id).toEqual(question.id)
+  })
 })

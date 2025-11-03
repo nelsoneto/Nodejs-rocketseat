@@ -3,7 +3,7 @@ import { Slug } from './value-objects/slug'
 import { Entity } from '@/core/entities/entity'
 import { Optional } from '@/core/types/optional'
 
-interface QuestionProps {
+export interface QuestionProps {
   bestAnswerId: UniqueEntityID | undefined
   authorId: UniqueEntityID
   title: string
