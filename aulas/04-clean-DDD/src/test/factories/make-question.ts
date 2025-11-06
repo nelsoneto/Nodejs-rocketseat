@@ -12,7 +12,8 @@ export function makeQuestion(
 ) {
   const question = Question.create(
     {
-      authorId: new UniqueEntityID('author-1'),
+      authorId: new UniqueEntityID(),
+      questionId: new UniqueEntityID(),
       title: faker.lorem.sentence(),
       content: faker.lorem.paragraphs(),
       bestAnswerId: undefined,

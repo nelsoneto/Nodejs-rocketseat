@@ -5,6 +5,7 @@ import { Optional } from '@/core/types/optional'
 
 export interface QuestionProps {
   bestAnswerId: UniqueEntityID | undefined
+  questionId: UniqueEntityID
   authorId: UniqueEntityID
   title: string
   content: string
