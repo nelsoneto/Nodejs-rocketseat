@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import {
   Question,
-  QuestionProps, // This is already exported in question.ts, no need to re-export here.
+  QuestionProps,
 } from '@/domain/forum/enterprise/entities/question'
 
 export function makeQuestion(

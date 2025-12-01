@@ -1,0 +1,52 @@
+import { expect } from 'vitest'
+import { DeleteQuestionCommentUseCase } from './delete-question-comments'
+import { InMemoryQuestionCommentsRepository } from '@/test/repositories/in-memory-question-comments-repository'
+import { makeQuestionComment } from '@/test/factories/make-question-comment'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+
+let inMemoryQuestionCommentsRepository: InMemoryQuestionCommentsRepository
+let sut: DeleteQuestionCommentUseCase
+
+describe('Delete Question Comment', () => {
+  beforeEach(() => {
+    inMemoryQuestionCommentsRepository =
+      new InMemoryQuestionCommentsRepository()
+    sut = new DeleteQuestionCommentUseCase(inMemoryQuestionCommentsRepository)
+  })
+
+  it('should be able to delete a question comment', async () => {
+    const questionComment = makeQuestionComment(
+      {
+        authorId: new UniqueEntityID('author-1'),
+      },
+      new UniqueEntityID('question-comment-1'),
+    )
+
+    await inMemoryQuestionCommentsRepository.create(questionComment)
+
+    await sut.execute({
+      questionCommentId: 'question-comment-1',
+      authorId: 'author-1',
+    })
+
+    expect(inMemoryQuestionCommentsRepository.items).toHaveLength(0)
+  })
+
+  it('should not be able to delete a question comment from another user', async () => {
+    const questionComment = makeQuestionComment(
+      {
+        authorId: new UniqueEntityID('author-1'),
+      },
+      new UniqueEntityID('question-comment-1'),
+    )
+
+    await inMemoryQuestionCommentsRepository.create(questionComment)
+
+    expect(() =>
+      sut.execute({
+        questionCommentId: 'question-comment-1',
+        authorId: 'author-2',
+      }),
+    ).rejects.toBeInstanceOf(Error)
+  })
+})

@@ -4,9 +4,9 @@
     // File Layout
     // "rootDir": "./src",
     // "outDir": "./dist",
-  "baseUrl": ".",
-  "paths": {
-    "@/*": ["src/*"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
     },
 
     // Environment Settings
@@ -42,13 +42,8 @@
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
-    "skipLibCheck": true,
+    "skipLibCheck": true
   },
   // Exclude config and build files outside of src so rootDir requirement is satisfied
-  "exclude": [
-    "vite.config.ts",
-    "vite.config.*",
-    "node_modules",
-    "dist"
-  ]
+  "exclude": ["vite.config.ts", "vite.config.*", "node_modules", "dist"]
 }
