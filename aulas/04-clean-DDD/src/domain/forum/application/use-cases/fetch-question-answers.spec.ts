@@ -1,4 +1,4 @@
-import { expect, describe, it, beforeEach } from 'vitest'
+import { expect } from 'vitest'
 import { FetchQuestionAnswersUseCase } from './fetch-question-answers'
 import { InMemoryAnswersRepository } from '@/test/repositories/in-memory-answers-repository'
 import { makeAnswer } from '@/test/factories/make-answer'
@@ -17,19 +17,24 @@ describe('Fetch Question Answers', () => {
     await inMemoryAnswersRepository.create(
       makeAnswer({ questionId: new UniqueEntityID('question-1') }),
     )
+
     await inMemoryAnswersRepository.create(
       makeAnswer({ questionId: new UniqueEntityID('question-1') }),
     )
     await inMemoryAnswersRepository.create(
-      makeAnswer({ questionId: new UniqueEntityID('question-1') }),
+      makeAnswer({ questionId: new UniqueEntityID('question-2') }),
     )
 
-    const { answers } = await sut.execute({
+    const result = await sut.execute({
       questionId: 'question-1',
       page: 1,
     })
 
-    expect(answers).toHaveLength(3)
+    expect(result.value?.answers).toHaveLength(2)
+    expect(result.value?.answers).toEqual([
+      expect.objectContaining({ questionId: new UniqueEntityID('question-1') }),
+      expect.objectContaining({ questionId: new UniqueEntityID('question-1') }),
+    ])
   })
 
   it('should be able to fetch paginated question answers', async () => {
@@ -39,11 +44,11 @@ describe('Fetch Question Answers', () => {
       )
     }
 
-    const { answers } = await sut.execute({
+    const result = await sut.execute({
       questionId: 'question-1',
       page: 2,
     })
 
-    expect(answers).toHaveLength(2)
+    expect(result.value?.answers).toHaveLength(2)
   })
 })
