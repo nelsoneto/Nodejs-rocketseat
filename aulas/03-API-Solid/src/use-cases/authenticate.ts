@@ -4,7 +4,6 @@ import { compare } from 'bcryptjs'
 import { User } from '@prisma/client'
 
 interface AuthenticateUseCaseRequest {
-  
   email: string
   password: string
 }

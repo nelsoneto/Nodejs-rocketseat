@@ -1,4 +1,4 @@
-import { PaginationParams } from '@/core/entities/repositories/pagination-pararms'
+import { PaginationParams } from '@/core/repositories/pagination-pararms'
 import { Question } from '../../enterprise/entities/question'
 
 export interface QuestionsRepository {

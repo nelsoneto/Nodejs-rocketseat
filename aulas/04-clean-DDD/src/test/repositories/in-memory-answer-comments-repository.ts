@@ -1,4 +1,4 @@
-import { PaginationParams } from '@/core/entities/repositories/pagination-pararms'
+import { PaginationParams } from '@/core/repositories/pagination-pararms'
 import { AnswerCommentsRepository } from '@/domain/forum/application/repositories/answer-comments-repository'
 import { AnswerComment } from '@/domain/forum/enterprise/entities/answer-comment'
 

@@ -38,7 +38,10 @@ export class CheckInUseCase {
     // usar função getDistanceBetweenCoordinates
     const distance = getDistanceBetweenCoordinates(
       { latitude: userLatitude, longitude: userLongitude },
-      { latitude: gym.latitude.toNumber(), longitude: gym.longitude.toNumber() }, // <--- CORRIGIDO
+      {
+        latitude: gym.latitude.toNumber(),
+        longitude: gym.longitude.toNumber(),
+      }, // <--- CORRIGIDO
     )
     const MAX_DISTANCE_KM = 0.1 // Distância máxima em km
     if (distance > MAX_DISTANCE_KM) {
